@@ -1,0 +1,54 @@
+package edu.hut.transformer.mr.nu;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.MapWritable;
+import org.apache.hadoop.mapreduce.Reducer;
+
+import edu.hut.common.KpiEnum;
+import edu.hut.transformer.model.dim.StatsUserDimension;
+import edu.hut.transformer.model.value.map.TimeOutputValue;
+import edu.hut.transformer.model.value.reduce.MapWritableValue;
+
+/**
+ * 计算新用户Reducer类
+ * 
+ * @author Administrator
+ * 
+ */
+public class NewInstallUserReducer
+		extends
+		Reducer<StatsUserDimension, TimeOutputValue, StatsUserDimension, MapWritableValue> {
+	private MapWritableValue outputValue = new MapWritableValue();
+	private Set<String> unique = new HashSet<String>();
+
+	@Override
+	protected void reduce(StatsUserDimension key,
+			Iterable<TimeOutputValue> values, Context context)
+			throws IOException, InterruptedException {
+		this.unique.clear();
+
+		// 计算uuid的个数
+		for (TimeOutputValue value : values) {
+			this.unique.add(value.getId());
+		}
+
+		MapWritable map = new MapWritable();
+		map.put(new IntWritable(-1), new IntWritable(this.unique.size()));
+		outputValue.setValue(map);
+
+		String kpiName = key.getStatsCommon().getKpi().getKpiName();
+		if (KpiEnum.NEW_INSTALL_USER.name.equals(kpiName)) {
+			// 计算stats_user表中的新增用户
+			outputValue.setKpi(KpiEnum.NEW_INSTALL_USER);
+		} else if (KpiEnum.BROWSER_NEW_INSTALL_USER.equals(kpiName)) {
+			// 计算stats_device_browser表中的新增用户
+			outputValue.setKpi(KpiEnum.BROWSER_NEW_INSTALL_USER);
+		}
+
+		context.write(key, outputValue);
+	}
+}
