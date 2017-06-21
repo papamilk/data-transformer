@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>test page 03</title>
+		<script type="text/javascript" src="js/analysis.js" ></script>
+	</head>
+	<body>
+		测试页面3<br/>
+		<label>category: event的category名称</label><br/>
+		<label>action: event的action名称</label><br/>
+		<label>map: {"key1":"value1", "key2":"value2"}</label><br/>
+		<label>duration: 1245</label><br/>
+		<button onclick="__AE__.onEventDuration('event的category名称','event的action名称', {'key1':'value1','key2':'value2'}, 1245)">触发带map和duration的事件</button><br/>
+		<button onclick="__AE__.onEventDuration('event的category名称','event的action名称')">触发不带map和duration的事件</button><br/>
+		跳转到:
+		<a href="demo01.html">demo</a>
+		<a href="demo02.html">demo2</a>
+		<a href="demo03.html">demo3</a>
+		<a href="demo04.html">demo4</a>
+	</body>
+</html>

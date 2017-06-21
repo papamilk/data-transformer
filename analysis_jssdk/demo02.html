@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>test page 02</title>
+		<script type="text/javascript" src="js/analysis.js" ></script>
+	</head>
+	<body>
+		测试页面2
+		<br/>
+		<label>orderid: 123456</label><br>
+		<label>orderName: 测试订单123456</label><br/>
+		<label>currencyAmount: 524.01</label><br/>
+		<label>currencyType: RMB</label><br/>
+		<label>payType: alipay</label><br/>
+		<button onclick="window.__AE__.onChargeRequest('123456','测试订单123456',524.01,'RMB','alipay')">触发chargeRequest事件</button><br/>
+		跳转到:
+		<a href="demo01.html">demo</a>
+		<a href="demo02.html">demo2</a>
+		<a href="demo03.html">demo3</a>
+		<a href="demo04.html">demo4</a>
+	</body>
+</html>
